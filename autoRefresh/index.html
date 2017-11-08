@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0,user-scalable=no"  />
+<title>自动刷新程序</title>
+<script src="jquery-3.2.1.min.js"></script>
+<script src="jquery.cookie.min.js"></script>
+</head>
+<body>
+<style>
+*{-moz-box-sizing:border-box;-webkit-box-sizing:border-box;-o-box-sizing:border-box;-ms-box-sizing:border-box;box-sizing:border-box}
+#warp{width: 90%; margin: 20px auto;}
+input{font-size: 16px; padding: 10px; border:1px #ccc solid; border-radius: 5px; width: 100%;}
+#warp .row{margin: 20px 0; text-align: center; width: 100%;}
+#run{border: 0; background: #176306; color: #fff;}
+label{width: 100%; text-align: left; display: block;}
+.reload_iframe{display: block;}
+
+@media screen and (max-width: 600px) {
+    input{width: 100%;}
+}
+</style>
+<div id="warp">
+
+    <div class="row">
+        <label>URL地址：</label>
+        <input type="text" id="url" name="url" />
+    </div>
+    <div class="row">
+        <label>每秒运行次数：</label>
+        <input type="number" id="run_num" name="run_num" value="3" />
+    </div>
+    <div class="row">
+        <label>运行每次秒数：</label>
+        <input type="number" id="num_time" name="num_time" value="0" />
+    </div>
+    <div class="row">
+        <input type="button" id="run" name="run" value="运行" />
+    </div>
+
+    <div class="row">
+        成功次数：<span id="count">0</span>
+    </div>
+</div>
+
+<div id="iframes"></div>
+
+<script>
+
+$("#run").click(function () {
+
+    var num_time = parseInt($("#num_time").val());
+    if(num_time < 1) num_time = 1;
+
+    setInterval(function () {
+        var run_num = $("#run_num").val();
+        run_num = parseInt(run_num);
+        if(run_num < 1) run_num = 1;
+
+        var url = $("#url").val();
+        if(url.length < 10) return false;
+
+        for(var i=0; i<run_num; i++) {
+            $("#iframes").html('<iframe src="' + url + '" width="100%" height="200" ></iframe>');
+        }
+        var count = parseInt($("#count").html());
+        count++;
+        $("#count").html(count);
+
+    }, num_time*1000);
+});
+
+</script>
+</body>
+</html>
