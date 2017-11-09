@@ -27,13 +27,13 @@ label{width: 100%; text-align: left; display: block;}
         <label>URL地址：</label>
         <input type="text" id="url" name="url" />
     </div>
-    <div class="row">
-        <label>每秒运行次数：</label>
-        <input type="number" id="run_num" name="run_num" value="3" />
+    <div style="display:none" class="row">
+        <label>一秒钟执行多少次：</label>
+        <input type="number" id="run_num" name="run_num" value="1" />
     </div>
     <div class="row">
-        <label>运行每次秒数：</label>
-        <input type="number" id="num_time" name="num_time" value="0" />
+        <label>每执行一次需要多少秒：</label>
+        <input type="number" id="num_time" name="num_time" value="3" />
     </div>
     <div class="row">
         <input type="button" id="run" name="run" value="运行" />
@@ -48,12 +48,15 @@ label{width: 100%; text-align: left; display: block;}
 
 <script>
 
+var INTER;
 $("#run").click(function () {
+	
+	INTER = window.clearInterval(INTER);
 
     var num_time = parseInt($("#num_time").val());
     if(num_time < 1) num_time = 1;
 
-    setInterval(function () {
+    INTER = setInterval(function () {
         var run_num = $("#run_num").val();
         run_num = parseInt(run_num);
         if(run_num < 1) run_num = 1;
@@ -63,7 +66,7 @@ $("#run").click(function () {
 
 		$("#iframes").html('');
         for(var i=0; i<run_num; i++) {
-            $("#iframes").append('<iframe src="' + url + '" width="100%" height="300" ></iframe>');
+            $("#iframes").append('<iframe src="' + url + '" width="100%" height="200" ></iframe>');
         }
         var count = parseInt($("#count").html());
         count++;
